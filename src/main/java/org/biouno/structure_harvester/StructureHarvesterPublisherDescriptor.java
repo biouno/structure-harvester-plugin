@@ -4,7 +4,7 @@ import hudson.model.AbstractProject;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.Publisher;
 
-public class StructureHarvesterPublisherDescriptor extends BuildStepDescriptor<Publisher>{
+public final class StructureHarvesterPublisherDescriptor extends BuildStepDescriptor<Publisher>{
 
 	@Override
 	public String getDisplayName() {
@@ -13,7 +13,7 @@ public class StructureHarvesterPublisherDescriptor extends BuildStepDescriptor<P
 
 	@Override
 	public boolean isApplicable(@SuppressWarnings("rawtypes") Class<? extends AbstractProject> jobType) {
-		return true;
+		return false;
 	}
 
 }
