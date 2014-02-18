@@ -1,0 +1,31 @@
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+	xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+
+	<f:entry title="${%Structure Harvester installation}" help="${rootURL}/../plugin/structure-harvester/help-structureHarvesterInstallationName.html">
+		<select class="setting-input" name="StructureHarvester.structureHarvesterInstallationName">
+			<option>(Default)</option>
+			<j:forEach var="inst" items="${descriptor.installations}">
+				<f:option selected="${inst.name==instance.structureHarvesterInstallationName}">${inst.name}</f:option>
+			</j:forEach>
+		</select>
+	</f:entry>
+	
+	<f:block>Structure Harvester parameters</f:block>
+    
+    <f:entry title="${%Structure Results directory}" help="${rootURL}/../plugin/structure-harvester/help-resultsDir.html">
+        <f:textbox name="resultsDir" value="${instance.resultsDir}" checkUrl="'${rootURL}/builder/StructureHarvesterBuilder/required?value='+escape(this.value)" />
+    </f:entry>
+    
+    <f:entry title="${%Output directory}" help="${rootURL}/../plugin/structure-harvester/help-outDir.html">
+        <f:textbox name="outDir" value="${instance.outDir}" checkUrl="'${rootURL}/builder/StructureHarvesterBuilder/required?value='+escape(this.value)" />
+    </f:entry>
+    
+    <f:entry title="${%Use Evanno method?}" help="${rootURL}/../plugin/structure-harvester/help-evanno.html">
+        <f:checkbox name="evanno" checked="${instance.outDir}" default="true" />
+    </f:entry>
+    
+    <f:entry title="${%Generate CLUMPP files?}" help="${rootURL}/../plugin/structure-harvester/help-clumpp.html">
+        <f:checkbox name="clumpp" checked="${instance.clumpp}" default="true" />
+    </f:entry>
+    
+</j:jelly>
