@@ -28,7 +28,7 @@
 		    </tr>
 		    <j:forEach items="${it.files}" var="file" indexVar="i">
 		      <tr>
-                <td>${it.k}</td><td><a href="${rootURL}/job/${it.owner.project.name}/ws/${it.outputDirectory}/${file}/*view*/">${file}</a></td>
+                <td>${it.k}</td><td>${file}</td>
               </tr>
 		    </j:forEach>
 		  </table>
