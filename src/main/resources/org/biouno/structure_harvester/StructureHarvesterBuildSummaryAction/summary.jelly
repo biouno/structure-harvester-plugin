@@ -1,0 +1,37 @@
+<j:jelly xmlns:j="jelly:core"
+	xmlns:d="jelly:define"
+    xmlns:l="/lib/layout"
+    xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form"
+    xmlns:i="jelly:fmt">
+    <t:summary icon="/plugin/structure-harvester/icons/icon-details.gif">
+        <h3>Structure Harvester</h3>
+        
+        <j:if test="${it.summary != null}">
+        <h4>Summary</h4>
+        <p>${it.summaryHTML}</p>
+        </j:if>
+        
+        <j:if test="${it.evanno != null}">
+        <h4>Evanno</h4>
+        <p>${it.evannoHTML}</p>
+        </j:if>
+        
+        <ul>        
+		  <li>Results Dir=${it.inputDirectory}</li>
+		  <li>Output Dir=${it.outputDirectory}</li>
+		</ul>
+		<p>
+		  <table border="1" width="100%">
+		    <tr>
+		      <th>K</th><th>Output file</th>
+		    </tr>
+		    <j:forEach items="${it.files}" var="file" indexVar="i">
+		      <tr>
+                <td>${it.k}</td><td><a href="${rootURL}/job/${it.owner.project.name}/ws/${it.outputDirectory}/${file}/*view*/">${file}</a></td>
+              </tr>
+		    </j:forEach>
+		  </table>
+		</p>
+	</t:summary>
+</j:jelly>

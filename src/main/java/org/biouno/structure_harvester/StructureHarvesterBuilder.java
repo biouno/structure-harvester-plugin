@@ -28,14 +28,17 @@ import hudson.EnvVars;
 import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
+import hudson.Util;
 import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
 import hudson.tasks.Builder;
 import hudson.util.ArgumentListBuilder;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.biouno.structure_harvester.util.Messages;
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -49,7 +52,7 @@ public class StructureHarvesterBuilder extends Builder {
 	/*
 	 * Le logger.
 	 */
-	private static final Logger LOGGER = Logger.getLogger("org.biouno.structure_structure");
+	//private static final Logger LOGGER = Logger.getLogger("org.biouno.structure_structure");
 	/**
 	 * Structure Harvester installation.
 	 */
@@ -161,6 +164,7 @@ public class StructureHarvesterBuilder extends Builder {
 		final Map<String, String> env = build.getEnvironment(listener);
 		listener.getLogger().println(Messages.StructureHarvesterBuilder_StructureHarvesterCommand(args.toStringWithQuote()));
 		final Integer exitCode = launcher.launch().cmds(args).envs(env).stdout(listener).pwd(build.getModuleRoot()).join();
+		
 
 		if (exitCode != 0) {
 			listener.getLogger().println(Messages.StructureHarvesterBuilder_ErrorExecutingCommand(exitCode));
@@ -168,9 +172,26 @@ public class StructureHarvesterBuilder extends Builder {
 		} else {
 			// If the command was executed with success, send the output dir back to the master
 			FilePath outFileFilePath = new FilePath(workspace, getOutDir());
+			
+			// Get output files
+			final List<String> resultFiles = new ArrayList<String>();
+			String summary = null;
+			String evanno = null;
+			for (FilePath resultFile : outFileFilePath.list()) {
+				if (resultFile.getName().equals("summary.txt")) {
+					listener.getLogger().println("Found the summary.txt file");
+					summary = Util.loadFile(new File(resultFile.getRemote()));
+				} else if (resultFile.getName().equals("evanno.txt")) {
+					listener.getLogger().println("Found the evanno.txt file");
+					evanno = Util.loadFile(new File(resultFile.getRemote()));
+				} else {
+					resultFiles.add(resultFile.getName());
+				}
+			}
+			listener.getLogger().printf("Found %d other files.\n", resultFiles.size());
+			
 			if(outFileFilePath.exists()) {
-				//build.addAction(new StructureHarvesterBuildSummaryAction(build, new String[]{outFileFilePath.getName()}, k));
-				listener.getLogger().println("FIXME!");
+				build.addAction(new StructureHarvesterBuildSummaryAction(build, resultFiles.toArray(new String[0]), this.getResultsDir(), this.getOutDir(), summary, evanno));
 			} else {
 				listener.fatalError("Couldn't find structure output file. Expected " + outFileFilePath.getRemote());
 			}
