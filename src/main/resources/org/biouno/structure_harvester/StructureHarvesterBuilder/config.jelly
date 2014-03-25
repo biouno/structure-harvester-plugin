@@ -21,7 +21,7 @@
     </f:entry>
     
     <f:entry title="${%Use Evanno method?}" help="${rootURL}/../plugin/structure-harvester/help-evanno.html">
-        <f:checkbox name="evanno" checked="${instance.outDir}" default="true" />
+        <f:checkbox name="evanno" checked="${instance.evanno}" default="true" />
     </f:entry>
     
     <f:entry title="${%Generate CLUMPP files?}" help="${rootURL}/../plugin/structure-harvester/help-clumpp.html">

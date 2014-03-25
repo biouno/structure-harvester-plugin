@@ -175,8 +175,8 @@ public class StructureHarvesterBuilder extends Builder {
 			
 			// Get output files
 			final List<String> resultFiles = new ArrayList<String>();
-			String summary = null;
-			String evanno = null;
+			String summary = "";
+			String evanno = "";
 			for (FilePath resultFile : outFileFilePath.list()) {
 				if (resultFile.getName().equals("summary.txt")) {
 					listener.getLogger().println("Found the summary.txt file");
