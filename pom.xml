@@ -12,7 +12,7 @@
 	<groupId>org.biouno</groupId>
 	<artifactId>structure-harvester</artifactId>
 	<name>Structure Harvester Plug-in</name>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.2</version>
 	<packaging>hpi</packaging>
 	<description>This plug-in integrates Jenkins to Structure Harvester.</description>
 
